@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Workout App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .hidden { display: none; }
+        button { padding: 10px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>My Workout App</h1>
+    <button onclick="showWorkout('a')">Workout A</button>
+    <button onclick="showWorkout('b')">Workout B</button>
+
+    <div id="workout-a" class="hidden">
+        <h2>Workout A</h2>
+        <p><strong>Superset 1:</strong> Barbell Squats (3x10-15, 45 lb), Bench Press (3x8-12, 50 lb dumbbells)</p>
+        <p><strong>Superset 2:</strong> Pull-ups (3x3), Lunges (3x12/leg)</p>
+        <p><strong>Superset 3:</strong> Dips (3x7), Bicep Curls (3x8-12, 35 lb)</p>
+        <p><strong>Finisher:</strong> Farmer’s Carry (3x30-40m, 35 lb)</p>
+    </div>
+
+    <div id="workout-b" class="hidden">
+        <h2>Workout B</h2>
+        <p><strong>Superset 1:</strong> Goblet Squats (3x10-15, 35 lb), Overhead Press w/ Burpee (3x8-10, 25 lb)</p>
+        <p><strong>Superset 2:</strong> Incline Push-ups (3x6), Chest Flys (3x10-12, 30 lb)</p>
+        <p><strong>Superset 3:</strong> Box Jumps (3x3-5), Bench Press Variation (3x8-12, 50 lb together)</p>
+        <p><strong>Finisher:</strong> Overhead Carry (3x30-40m, 35 lb)</p>
+    </div>
+
+    <script>
+        function showWorkout(type) {
+            document.getElementById('workout-a').classList.add('hidden');
+            document.getElementById('workout-b').classList.add('hidden');
+            document.getElementById(`workout-${type}`).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
