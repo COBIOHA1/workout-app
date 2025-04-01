@@ -53,6 +53,10 @@
             color: #00cc99;
             margin-left: 10px;
         }
+        .motivation {
+            text-align: center;
+            margin: 20px 0;
+        }
         .workout-section {
             margin-bottom: 30px;
             animation: fadeIn 0.5s ease-in;
@@ -106,6 +110,7 @@
             .container { padding: 0 10px; }
             .header { flex-direction: column; align-items: flex-start; }
             .date-menu { margin-bottom: 10px; }
+            .motivation img { max-width: 80%; }
         }
     </style>
 </head>
@@ -127,10 +132,12 @@
                 <span class="progress-text" id="progress-text">0%</span>
             </div>
         </div>
-        <div id="workout-content"></div>
-        <div class="footer">
+        <div class="motivation">
             <img id="motivational-image" src="" alt="Motivational Image">
             <p class="quote" id="daily-quote"></p>
+        </div>
+        <div id="workout-content"></div>
+        <div class="footer">
             <h3>Reflections</h3>
             <textarea id="notes" placeholder="Write your reflections here..."></textarea>
         </div>
@@ -202,7 +209,11 @@
             const isOddWeek = weekNumber % 2 === 1;
             let content = '';
 
-            content += '<div class="workout-section"><h3>Morning Routine</h3><ul><li><input type="checkbox" class="task"> Take your supplements</li></ul></div>';
+            // Morning Routine (all days)
+            content += '<div class="workout-section"><h3>Morning Routine</h3><ul>';
+            content += '<li><input type="checkbox" class="task"> Take your supplements</li>';
+            content += '<li><input type="checkbox" class="task"> 3 min cold shower or plunge (wake up!)</li>';
+            content += '</ul></div>';
 
             if ([1, 3, 5].includes(day)) { // Mon, Wed, Fri
                 let workoutLabel, workout;
@@ -230,7 +241,14 @@
                 content += '</ul></div>';
             }
 
-            content += '<div class="workout-section"><h3>Evening Routine</h3><ul><li><input type="checkbox" class="task"> Walk 10K steps</li></ul></div>';
+            // Evening Routine
+            content += '<div class="workout-section"><h3>Evening Routine</h3><ul>';
+            content += '<li><input type="checkbox" class="task"> Walk 10K steps</li>';
+            if ([2, 4, 6, 0].includes(day)) { // Tue, Thu, Sat, Sun
+                content += '<li><input type="checkbox" class="task"> Hot bath with lavender salts</li>';
+            }
+            content += '</ul></div>';
+
             content += '<div class="workout-section"><h3>Night Routine</h3><ul><li><input type="checkbox" class="task"> Take your Magnesium & chamomile tea</li></ul></div>';
 
             return content;
