@@ -5,38 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Workout App</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .hidden { display: none; }
-        button { padding: 10px; margin: 5px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        h1, h2, h3 {
+            color: #00cc99;
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        }
+        h1 { font-size: 2em; }
+        h2 { font-size: 1.5em; }
+        h3 { font-size: 1.2em; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .workout-section {
+            margin-bottom: 30px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 0 10px; }
+        }
     </style>
 </head>
 <body>
-    <h1>My Workout App</h1>
-    <button onclick="showWorkout('a')">Workout A</button>
-    <button onclick="showWorkout('b')">Workout B</button>
-
-    <div id="workout-a" class="hidden">
-        <h2>Workout A</h2>
-        <p><strong>Superset 1:</strong> Barbell Squats (3x10-15, 45 lb), Bench Press (3x8-12, 50 lb dumbbells)</p>
-        <p><strong>Superset 2:</strong> Pull-ups (3x3), Lunges (3x12/leg)</p>
-        <p><strong>Superset 3:</strong> Dips (3x7), Bicep Curls (3x8-12, 35 lb)</p>
-        <p><strong>Finisher:</strong> Farmer’s Carry (3x30-40m, 35 lb)</p>
+    <div class="container">
+        <div class="header">
+            <h1 id="date"></h1>
+            <p id="welcome"></p>
+        </div>
+        <div id="workout-content"></div>
+        <div class="footer">
+            <img src="https://via.placeholder.com/300" alt="Motivational Image">
+        </div>
     </div>
-
-    <div id="workout-b" class="hidden">
-        <h2>Workout B</h2>
-        <p><strong>Superset 1:</strong> Goblet Squats (3x10-15, 35 lb), Overhead Press w/ Burpee (3x8-10, 25 lb)</p>
-        <p><strong>Superset 2:</strong> Incline Push-ups (3x6), Chest Flys (3x10-12, 30 lb)</p>
-        <p><strong>Superset 3:</strong> Box Jumps (3x3-5), Bench Press Variation (3x8-12, 50 lb together)</p>
-        <p><strong>Finisher:</strong> Overhead Carry (3x30-40m, 35 lb)</p>
-    </div>
-
     <script>
-        function showWorkout(type) {
-            document.getElementById('workout-a').classList.add('hidden');
-            document.getElementById('workout-b').classList.add('hidden');
-            document.getElementById(`workout-${type}`).classList.remove('hidden');
+        const workoutA = [
+            { name: 'Superset 1', exercises: ['Barbell Squats: 3 sets, 10-15 reps (45 lb)', 'Bench Press: 3 sets, 8-12 reps (50 lb dumbbells each hand)'] },
+            { name: 'Superset 2', exercises: ['Pull-ups: 3 sets, 3 reps (1 wide, 1 shoulder, 1 narrow grip)', 'Lunges: 3 sets, 12 reps/leg (bodyweight)'] },
+            { name: 'Superset 3', exercises: ['Dips: 3 sets, 7 reps (bodyweight)', 'Bicep Curls: 3 sets, 8-12 reps/arm (35 lb kettlebell)'] },
+            { name: 'Finisher', exercises: ['Farmer’s Carry: 3 sets, 30-40 meters/hand (35 lb kettlebell)'] }
+        ];
+
+        const workoutB = [
+            { name: 'Superset 1', exercises: ['Goblet Squats: 3 sets, 10-15 reps (35 lb kettlebell)', 'Overhead Press with Burpee: 3 sets, 8-10 reps (25 lb dumbbells each hand)'] },
+            { name: 'Superset 2', exercises: ['Incline Push-ups: 3 sets, 6 reps (2 wide, 2 diamond, 2 shoulder)', 'Chest Flys: 3 sets, 10-12 reps (30 lb dumbbells each hand)'] },
+            { name: 'Superset 3', exercises: ['Box Jumps: 3 sets, 3-5 reps (20, 24, or 30 inches)', 'Bench Press Variation: 3 sets, 8-12 reps (two 50 lb dumbbells together)'] },
+            { name: 'Finisher', exercises: ['Overhead Carry: 3 sets, 30-40 meters/arm (35 lb kettlebell)'] }
+        ];
+
+        function formatDate(date) {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const dayName = days[date.getDay()];
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            return `${dayName} ${day} ${month} ${year}`;
         }
+
+        function getWorkoutContent() {
+            const date = new Date();
+            const day = date.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+            let content = '';
+
+            if ([1, 3, 5].includes(day)) { // Mon, Wed, Fri
+                const isWorkoutA = (day === 1 || day === 5); // Mon or Fri
+                const workout = isWorkoutA ? workoutA : workoutB;
+                content += '<div class="workout-section"><h3>Resistance Training</h3><ul>';
+                workout.forEach(superset => {
+                    content += `<li>${superset.name}<ul>`;
+                    superset.exercises.forEach(ex => {
+                        content += `<li><input type="checkbox"> ${ex}</li>`;
+                    });
+                    content += '</ul></li>';
+                });
+                content += '</ul></div>';
+            } else { // Tue, Thu, Sat, Sun
+                content += '<div class="workout-section"><h3>Active Rest</h3><ul><li><input type="checkbox"> Walk 10K steps</li></ul></div>';
+            }
+
+            content += '<div class="workout-section"><h3>Cardio</h3><ul><li><input type="checkbox"> Walk 10K steps</li></ul></div>';
+
+            return content;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const date = new Date();
+            document.getElementById('date').textContent = formatDate(date);
+            document.getElementById('welcome').textContent = "Welcome CIA! Time to get at your fitness goals for today. Remember the goal is to reach 200 lbs and improve other stats. Let's go";
+            document.getElementById('workout-content').innerHTML = getWorkoutContent();
+        });
     </script>
 </body>
 </html>
