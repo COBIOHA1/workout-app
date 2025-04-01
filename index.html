@@ -30,7 +30,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .date-menu {
             display: flex;
@@ -77,10 +77,31 @@
             font-size: 10px;
             margin-top: 2px;
         }
+        .welcome-section {
+            text-align: center;
+            margin: 20px 0 10px 0;
+        }
+        .focus-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #focus {
+            font-size: 0.9em;
+            color: #b0b0b0;
+        }
         .motivation {
             text-align: center;
             margin: 20px 0;
-            cursor: pointer; /* Indicates image is clickable */
+            position: relative;
+            cursor: pointer;
+        }
+        .toggle-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #e0e0e0;
+            opacity: 0.7;
         }
         .workout-section {
             margin-bottom: 30px;
@@ -111,11 +132,6 @@
             font-style: italic;
             margin: 10px 0;
         }
-        #focus {
-            font-size: 0.9em;
-            margin-top: -10px;
-            color: #b0b0b0;
-        }
         textarea {
             width: 100%;
             height: 100px;
@@ -140,8 +156,8 @@
             .container { padding: 0 10px; }
             .header { flex-direction: column; align-items: flex-start; }
             .date-menu { margin-bottom: 10px; }
-            .motivation img { max-width: 80%; }
             .progress-section { margin-top: 10px; }
+            .motivation img { max-width: 80%; }
         }
     </style>
 </head>
@@ -154,8 +170,6 @@
             </div>
             <div>
                 <h1 id="date"></h1>
-                <p id="welcome"></p>
-                <p id="focus"></p>
             </div>
             <div class="progress-section">
                 <div class="progress-bar-container">
@@ -170,8 +184,15 @@
                 </button>
             </div>
         </div>
+        <div class="welcome-section">
+            <p id="welcome"></p>
+        </div>
+        <div class="focus-section">
+            <p id="focus"></p>
+        </div>
         <div class="motivation">
             <img id="motivational-image" src="" alt="Motivational Image">
+            <span class="toggle-icon">⋯</span>
             <p class="quote" id="daily-quote"></p>
         </div>
         <div id="workout-content"></div>
@@ -340,7 +361,7 @@
             const key = getDateKey(date);
             localStorage.removeItem(`tasks_${key}`);
             localStorage.removeItem(`notes_${key}`);
-            loadDay(date); // Reload the day to reflect reset
+            loadDay(date);
         }
 
         function loadDay(date) {
@@ -374,12 +395,12 @@
 
             datePicker.addEventListener('change', () => {
                 const selectedDate = new Date(datePicker.value);
-                saveNotes(today); // Save notes for current day before switching
+                saveNotes(today);
                 loadDay(selectedDate);
             });
 
             goToToday.addEventListener('click', () => {
-                saveNotes(new Date(datePicker.value)); // Save notes for selected day
+                saveNotes(new Date(datePicker.value));
                 datePicker.value = getDateKey(today);
                 loadDay(today);
             });
