@@ -96,8 +96,8 @@
             cursor: pointer;
         }
         .image-container {
-            width: 600px; /* Fixed width */
-            height: 400px; /* Fixed height */
+            width: 600px;
+            height: 400px;
             margin: 0 auto;
             position: relative;
             overflow: hidden;
@@ -105,7 +105,7 @@
         .image-container img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Scales image to fit without cropping */
+            object-fit: contain;
         }
         .toggle-icon {
             position: absolute;
@@ -280,13 +280,12 @@
             const isOddWeek = weekNumber % 2 === 1;
             let content = '';
 
-            // Morning Routine (all days)
             content += '<div class="workout-section"><h3>Morning Routine</h3><ul>';
             content += '<li><input type="checkbox" class="task"> Take your supplements</li>';
             content += '<li><input type="checkbox" class="task"> 3 min cold shower or plunge (wake up!)</li>';
             content += '</ul></div>';
 
-            if ([1, 3, 5].includes(day)) { // Mon, Wed, Fri
+            if ([1, 3, 5].includes(day)) {
                 let workoutLabel, workout;
                 if (isOddWeek) {
                     workoutLabel = (day === 1 || day === 5) ? ' (Workout A)' : ' (Workout B)';
@@ -304,7 +303,7 @@
                     content += '</ul></li>';
                 });
                 content += '</ul></div>';
-            } else { // Tue, Thu, Sat, Sun
+            } else {
                 content += '<div class="workout-section"><h3>Active Rest (Stretching)</h3><ul>';
                 stretchingExercises.forEach(ex => {
                     content += `<li><input type="checkbox" class="task"> ${ex}</li>`;
@@ -312,10 +311,9 @@
                 content += '</ul></div>';
             }
 
-            // Evening Routine
             content += '<div class="workout-section"><h3>Evening Routine</h3><ul>';
             content += '<li><input type="checkbox" class="task"> Walk 10K steps</li>';
-            if ([2, 4, 6, 0].includes(day)) { // Tue, Thu, Sat, Sun
+            if ([2, 4, 6, 0].includes(day)) {
                 content += '<li><input type="checkbox" class="task"> Hot bath with lavender salts</li>';
             }
             content += '</ul></div>';
@@ -379,7 +377,7 @@
             document.getElementById('welcome').textContent = "Welcome CIA! Time to get at your fitness goals for today. Remember the goal is to reach 200 lbs and improve other stats. Let's go";
             document.getElementById('focus').textContent = [1, 3, 5].includes(date.getDay()) ? "Today’s Focus: Strength" : "Today’s Focus: Recovery";
             const day = date.getDay();
-            imageCycleIndex = (day + 6) % 7; // Reset to current day
+            imageCycleIndex = (day + 6) % 7;
             document.getElementById('motivational-image').src = images[imageCycleIndex];
             document.getElementById('daily-quote').textContent = quotes[imageCycleIndex];
             document.getElementById('workout-content').innerHTML = getWorkoutContent(date);
@@ -404,19 +402,19 @@
             loadDay(today);
 
             datePicker.addEventListener('change', () => {
-                const selectedDate = new Date(datePicker.value);
+                const selectedDate = new Date(datePicker.value + 'T00:00:00');
                 saveNotes(today);
                 loadDay(selectedDate);
             });
 
             goToToday.addEventListener('click', () => {
-                saveNotes(new Date(datePicker.value));
+                saveNotes(new Date(datePicker.value + 'T00:00:00'));
                 datePicker.value = getDateKey(today);
                 loadDay(today);
             });
 
             resetDayBtn.addEventListener('click', () => {
-                resetDay(new Date(datePicker.value));
+                resetDay(new Date(datePicker.value + 'T00:00:00'));
             });
 
             motivationalImage.addEventListener('click', () => {
@@ -426,7 +424,7 @@
             });
 
             document.getElementById('notes').addEventListener('input', () => {
-                saveNotes(new Date(datePicker.value));
+                saveNotes(new Date(datePicker.value + 'T00:00:00'));
             });
         });
     </script>
